@@ -44,7 +44,7 @@ namespace CAFE_INIZIO
             }
         }
     }
-    SqlConnection Con = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security = True; Connect Timeout = 30");
+    SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
         
         private void DisplayEmployee()
         {
@@ -233,6 +233,13 @@ namespace CAFE_INIZIO
             Order order = new Order();
             order.Show();
             this.Hide();
+        }
+
+        private void btnLOGOUT_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Close();
         }
     }
 }

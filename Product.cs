@@ -23,7 +23,7 @@ namespace CAFE_INIZIO
             ProductDGV.CellDoubleClick += new DataGridViewCellEventHandler(ProductDGV_CellDoubleClick);
         }
 
-        SqlConnection Con = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security = True; Connect Timeout = 30");
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
 
         private void DisplayProduct()
         {
@@ -220,7 +220,7 @@ namespace CAFE_INIZIO
 
             try
             {
-                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
+                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("DELETE FROM ProductTbl WHERE PrID = @PrID", con))
@@ -252,6 +252,13 @@ namespace CAFE_INIZIO
             Order order = new Order();
             order.Show();
             this.Hide();
+        }
+
+        private void btnLOGOUT_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Close();
         }
     }
 }

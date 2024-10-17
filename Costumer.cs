@@ -32,9 +32,9 @@ namespace CAFE_INIZIO
                 CustGenCB.Text = row.Cells["CustGen"].Value.ToString();
 
                 
-                if (row.Cells["CustID"].Value != DBNull.Value && int.TryParse(row.Cells["CustID"].Value.ToString(), out int custId))
+                if (row.Cells["CustID"].Value != DBNull.Value && int.TryParse(row.Cells["CustID"].Value.ToString(), out int CustID))
                 {
-                    Key = custId; 
+                    Key = CustID; 
                 }
                 else
                 {
@@ -44,7 +44,7 @@ namespace CAFE_INIZIO
         }
 
 
-        SqlConnection Con = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security = True; Connect Timeout = 30");
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
         private void DisplayCustomer()
         {
             try
@@ -237,6 +237,13 @@ namespace CAFE_INIZIO
             Order order = new Order();
             order.Show();
             this.Hide();
+        }
+
+        private void btnLOGOUT_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Close();
         }
     }
 }

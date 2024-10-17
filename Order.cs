@@ -14,7 +14,7 @@ namespace CAFE_INIZIO
         private int selectedCustomerId;
         private string selectedCustomerName;
 
-        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30";
+        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30";
 
         public Order()
         {
@@ -358,6 +358,41 @@ namespace CAFE_INIZIO
             billDGV.Rows.Clear();
             billDGV.Refresh();
             GrdTotal = 0;
+        }
+
+        private void btnHOME_Click(object sender, EventArgs e)
+        {
+            Main mainForm = new Main();
+            mainForm.Show();
+            this.Hide();
+        }
+
+        private void btnEMPLOYEE_Click(object sender, EventArgs e)
+        {
+            Employee employee = new Employee();
+            employee.Show();
+            this.Hide();
+        }
+
+        private void btnPRODUCT_Click(object sender, EventArgs e)
+        {
+            Product product = new Product();
+            product.Show();
+            this.Hide();
+        }
+
+        private void btnCOSTUMER_Click(object sender, EventArgs e)
+        {
+            Costumer costumer = new Costumer();
+            costumer.Show();
+            this.Hide();
+        }
+
+        private void btnORDER_Click(object sender, EventArgs e)
+        {
+            Order order = new Order();
+            order.Show();
+            this.Hide();
         }
     }
 }

@@ -285,6 +285,7 @@
             this.btnLOGOUT.Text = "LOGOUT";
             this.btnLOGOUT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnLOGOUT.UseVisualStyleBackColor = true;
+            this.btnLOGOUT.Click += new System.EventHandler(this.btnLOGOUT_Click);
             // 
             // btnORDER
             // 
