@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
@@ -44,7 +44,7 @@ namespace CAFE_INIZIO
             }
         }
     }
-    SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
+    SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30");
         
         private void DisplayEmployee()
         {
@@ -98,16 +98,36 @@ namespace CAFE_INIZIO
 
         private void btnEMPLOYEE_Click(object sender, EventArgs e)
         {
-            Employee employee = new Employee();
-            employee.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Employee employee = new Employee();
+                employee.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnPRODUCT_Click(object sender, EventArgs e)
         {
-            Product product = new Product();
-            product.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Product product = new Product();
+                product.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnCOSTUMER_Click(object sender, EventArgs e)
