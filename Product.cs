@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,7 +23,7 @@ namespace CAFE_INIZIO
             ProductDGV.CellDoubleClick += new DataGridViewCellEventHandler(ProductDGV_CellDoubleClick);
         }
 
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30");
 
         private void DisplayProduct()
         {
@@ -220,7 +220,7 @@ namespace CAFE_INIZIO
 
             try
             {
-                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
+                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("DELETE FROM ProductTbl WHERE PrID = @PrID", con))
