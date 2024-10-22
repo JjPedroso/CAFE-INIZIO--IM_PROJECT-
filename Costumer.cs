@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,28 +23,28 @@ namespace CAFE_INIZIO
         }
         private void CustomerDGV_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) 
+            if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = CustomerDGV.Rows[e.RowIndex];
 
-               
+
                 CustNameTb.Text = row.Cells["CustName"].Value.ToString();
                 CustGenCB.Text = row.Cells["CustGen"].Value.ToString();
 
-                
+
                 if (row.Cells["CustID"].Value != DBNull.Value && int.TryParse(row.Cells["CustID"].Value.ToString(), out int CustID))
                 {
-                    Key = CustID; 
+                    Key = CustID;
                 }
                 else
                 {
-                    Key = 0; 
+                    Key = 0;
                 }
             }
         }
 
 
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30");
         private void DisplayCustomer()
         {
             try
@@ -94,16 +94,36 @@ namespace CAFE_INIZIO
 
         private void btnEMPLOYEE_Click(object sender, EventArgs e)
         {
-            Employee employee = new Employee();
-            employee.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Employee employee = new Employee();
+                employee.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnPRODUCT_Click(object sender, EventArgs e)
         {
-            Product product = new Product();
-            product.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Product product = new Product();
+                product.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnSAVE_Click(object sender, EventArgs e)
@@ -204,7 +224,7 @@ namespace CAFE_INIZIO
 
             try
             {
-                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
+                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30"))
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("DELETE FROM CustomerTbl WHERE CustID = @CustID", con))
@@ -238,7 +258,6 @@ namespace CAFE_INIZIO
             order.Show();
             this.Hide();
         }
-
         private void btnLOGOUT_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1();
