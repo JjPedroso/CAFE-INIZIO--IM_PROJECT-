@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +12,16 @@ namespace CAFE_INIZIO
 {
     public partial class Main : Form
     {
-        public Main()
+        private string employeeName;
+        public Main(string employeeName = "")
         {
             InitializeComponent();
+            this.employeeName = employeeName;
+            this.Load += Main_Load;
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnHOME_Click(object sender, EventArgs e)
@@ -31,16 +33,36 @@ namespace CAFE_INIZIO
 
         private void btnEMPLOYEE_Click(object sender, EventArgs e)
         {
-            Employee employee = new Employee();
-            employee.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Employee employee = new Employee();
+                employee.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnPRODUCT_Click(object sender, EventArgs e)
         {
-            Product product = new Product();
-            product.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Product product = new Product();
+                product.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnCOSTUMER_Click(object sender, EventArgs e)
@@ -52,23 +74,15 @@ namespace CAFE_INIZIO
 
         private void btnORDER_Click(object sender, EventArgs e)
         {
-            try
-            {
-                using (Order order = new Order())
-                {
-                    this.Hide();
-                    order.ShowDialog();
-                    this.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error opening Order form: " + ex.Message);
-            }
+            Order order = new Order(employeeName);
+            order.Show();
+            this.Hide();
         }
 
         private void btnLOGOUT_Click(object sender, EventArgs e)
         {
+
+            Form1.IsAdmin = false;
             Form1 form1 = new Form1();
             form1.Show();
             this.Close();
