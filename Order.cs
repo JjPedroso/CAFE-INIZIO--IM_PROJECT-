@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -13,12 +13,14 @@ namespace CAFE_INIZIO
         private int GrdTotal = 0;
         private int selectedCustomerId;
         private string selectedCustomerName;
+        private string currentEmployeeName;
 
-        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\HCDC-\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30";
+        private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30";
 
-        public Order()
+        public Order(string employeeName = "")
         {
             InitializeComponent();
+            currentEmployeeName = employeeName;
             SetupDataGridViews();
             GetCustomers();
             DisplayProduct();
@@ -131,7 +133,7 @@ namespace CAFE_INIZIO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT BNum, BDate, CustId, CustName, EmpNme, Amt FROM BillTbl"; // Ensure these fields exist in your database
+                    string query = "SELECT BNum, BDate, CustId, CustName, EmpName, Amt FROM BillTbl";
                     SqlDataAdapter sda = new SqlDataAdapter(query, connection);
                     DataTable dt = new DataTable();
                     sda.Fill(dt);
@@ -144,7 +146,6 @@ namespace CAFE_INIZIO
                 MessageBox.Show("Error loading transactions: " + ex.Message);
             }
         }
-
 
         private void ProductDGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -196,7 +197,7 @@ namespace CAFE_INIZIO
 
             UpdateStock(productId, quantity);
             ResetProductInputs();
-            DisplayProduct(); // Refresh the product list
+            DisplayProduct();
         }
 
         private void UpdateStock(int productId, int quantitySold)
@@ -281,25 +282,24 @@ namespace CAFE_INIZIO
                 {
                     Con.Open();
                     int newBNum = GetNextBillNumber(Con);
-                    SqlCommand cmd = new SqlCommand("INSERT INTO BillTbl (BNum, BDate, CustId, CustName, EmpNme, Amt) VALUES (@BN, @BD, @CI, @CN, @EN, @Am)", Con);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO BillTbl (BNum, BDate, CustId, CustName, EmpName, Amt) VALUES (@BN, @BD, @CI, @CN, @EN, @Am)", Con);
                     cmd.Parameters.AddWithValue("@BN", newBNum);
                     cmd.Parameters.AddWithValue("@BD", DateTime.Today.Date);
-                    cmd.Parameters.AddWithValue("@CI", selectedCustomerId); // Use the selected customer ID
-                    cmd.Parameters.AddWithValue("@CN", selectedCustomerName); // Use the customer name
-                    cmd.Parameters.AddWithValue("@EN", "DefaultEmployeeName"); // Replace with actual employee name
-                    cmd.Parameters.AddWithValue("@Am", GrdTotal); // Use the current GrdTotal
+                    cmd.Parameters.AddWithValue("@CI", selectedCustomerId);
+                    cmd.Parameters.AddWithValue("@CN", selectedCustomerName);
+                    cmd.Parameters.AddWithValue("@EN", currentEmployeeName); // Use the current employee name
+                    cmd.Parameters.AddWithValue("@Am", GrdTotal);
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Bill Saved");
                 }
-                DisplayTransactions(); // Refresh the transaction display
+                DisplayTransactions();
             }
             catch (Exception Ex)
             {
                 MessageBox.Show(Ex.Message);
             }
         }
-
 
         private int GetNextBillNumber(SqlConnection connection)
         {
@@ -309,19 +309,19 @@ namespace CAFE_INIZIO
 
         private void btnPRINT_Click(object sender, EventArgs e)
         {
+            InsertBill();
             printDocument1.DefaultPageSettings.PaperSize = new System.Drawing.Printing.PaperSize("pprnm", 285, 600);
             if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
             {
                 printDocument1.Print();
             }
-            InsertBill();
         }
 
         private void TransactionsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Handle TransactionsDGV cell content click if needed
         }
- 
+
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             e.Graphics.DrawString("CAFE INIZIO", new Font("Century Gothic", 12, FontStyle.Bold), Brushes.Red, new Point(80));
@@ -352,12 +352,13 @@ namespace CAFE_INIZIO
 
             e.Graphics.DrawString("Grand Total:", new Font("Century Gothic", 10, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 10));
             e.Graphics.DrawString($"PHP {GrdTotal:N2}", new Font("Century Gothic", 10, FontStyle.Bold), Brushes.Blue, new Point(120, pos + 10));
-
-            e.Graphics.DrawString("***THANK YOU FOR VISITING CAFE INIZIO***", new Font("Century Gothic", 8, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 30));
+            e.Graphics.DrawString($"Served by: {currentEmployeeName}", new Font("Century Gothic", 8, FontStyle.Regular), Brushes.Black, new Point(26, pos + 30));
+            e.Graphics.DrawString("***THANK YOU FOR VISITING CAFE INIZIO***", new Font("Century Gothic", 8, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 50));
 
             billDGV.Rows.Clear();
             billDGV.Refresh();
             GrdTotal = 0;
+            TotalLbl.Text = "PHP 0";
         }
 
         private void btnHOME_Click(object sender, EventArgs e)
@@ -369,16 +370,36 @@ namespace CAFE_INIZIO
 
         private void btnEMPLOYEE_Click(object sender, EventArgs e)
         {
-            Employee employee = new Employee();
-            employee.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Employee employee = new Employee();
+                employee.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnPRODUCT_Click(object sender, EventArgs e)
         {
-            Product product = new Product();
-            product.Show();
-            this.Hide();
+            if (Form1.IsAdmin)
+            {
+                Product product = new Product();
+                product.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Only the Administrator can access this program",
+                              "Access Denied",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
         }
 
         private void btnCOSTUMER_Click(object sender, EventArgs e)
