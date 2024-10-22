@@ -287,7 +287,7 @@ namespace CAFE_INIZIO
                     cmd.Parameters.AddWithValue("@BD", DateTime.Today.Date);
                     cmd.Parameters.AddWithValue("@CI", selectedCustomerId);
                     cmd.Parameters.AddWithValue("@CN", selectedCustomerName);
-                    cmd.Parameters.AddWithValue("@EN", currentEmployeeName); // Use the current employee name
+                    cmd.Parameters.AddWithValue("@EN", currentEmployeeName);
                     cmd.Parameters.AddWithValue("@Am", GrdTotal);
 
                     cmd.ExecuteNonQuery();
@@ -411,7 +411,7 @@ namespace CAFE_INIZIO
 
         private void btnORDER_Click(object sender, EventArgs e)
         {
-            Order order = new Order();
+            Order order = new Order(currentEmployeeName);
             order.Show();
             this.Hide();
         }
