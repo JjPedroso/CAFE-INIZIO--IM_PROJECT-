@@ -1,4 +1,4 @@
-﻿namespace CAFE_INIZIO
+namespace CAFE_INIZIO
 {
     partial class Product
     {
@@ -37,9 +37,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.ProductDGV = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnDELETE = new System.Windows.Forms.Button();
-            this.btnEDIT = new System.Windows.Forms.Button();
-            this.btnSAVE = new System.Windows.Forms.Button();
             this.PrPriceTb = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -49,6 +46,11 @@
             this.PrNameTb = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnPASTRY = new System.Windows.Forms.Button();
+            this.btnCOFFEE = new System.Windows.Forms.Button();
+            this.btnDELETE = new System.Windows.Forms.Button();
+            this.btnEDIT = new System.Windows.Forms.Button();
+            this.btnSAVE = new System.Windows.Forms.Button();
             this.btnLOGOUT = new System.Windows.Forms.Button();
             this.btnORDER = new System.Windows.Forms.Button();
             this.btnCOSTUMER = new System.Windows.Forms.Button();
@@ -80,6 +82,8 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.Controls.Add(this.btnPASTRY);
+            this.panel3.Controls.Add(this.btnCOFFEE);
             this.panel3.Controls.Add(this.ProductDGV);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.btnDELETE);
@@ -116,7 +120,7 @@
             this.ProductDGV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.ProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ProductDGV.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ProductDGV.Location = new System.Drawing.Point(11, 138);
+            this.ProductDGV.Location = new System.Drawing.Point(11, 154);
             this.ProductDGV.Name = "ProductDGV";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.PeachPuff;
@@ -134,7 +138,7 @@
             this.ProductDGV.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ProductDGV.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ProductDGV.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
-            this.ProductDGV.Size = new System.Drawing.Size(930, 233);
+            this.ProductDGV.Size = new System.Drawing.Size(930, 217);
             this.ProductDGV.TabIndex = 27;
             this.ProductDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProductDGV_CellDoubleClick);
             // 
@@ -142,55 +146,16 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(347, 110);
+            this.label6.Location = new System.Drawing.Point(349, 126);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(177, 25);
             this.label6.TabIndex = 26;
             this.label6.Text = "PRODUCT LIST";
             // 
-            // btnDELETE
-            // 
-            this.btnDELETE.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnDELETE.Image = global::CAFE_INIZIO.Properties.Resources.exitbutton;
-            this.btnDELETE.Location = new System.Drawing.Point(852, 58);
-            this.btnDELETE.Name = "btnDELETE";
-            this.btnDELETE.Size = new System.Drawing.Size(89, 42);
-            this.btnDELETE.TabIndex = 25;
-            this.btnDELETE.Text = "DELETE";
-            this.btnDELETE.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDELETE.UseVisualStyleBackColor = false;
-            this.btnDELETE.Click += new System.EventHandler(this.btnDELETE_Click);
-            // 
-            // btnEDIT
-            // 
-            this.btnEDIT.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.btnEDIT.Image = global::CAFE_INIZIO.Properties.Resources.view;
-            this.btnEDIT.Location = new System.Drawing.Point(757, 58);
-            this.btnEDIT.Name = "btnEDIT";
-            this.btnEDIT.Size = new System.Drawing.Size(89, 42);
-            this.btnEDIT.TabIndex = 24;
-            this.btnEDIT.Text = "EDIT";
-            this.btnEDIT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnEDIT.UseVisualStyleBackColor = false;
-            this.btnEDIT.Click += new System.EventHandler(this.btnEDIT_Click);
-            // 
-            // btnSAVE
-            // 
-            this.btnSAVE.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.btnSAVE.Image = global::CAFE_INIZIO.Properties.Resources.add;
-            this.btnSAVE.Location = new System.Drawing.Point(662, 58);
-            this.btnSAVE.Name = "btnSAVE";
-            this.btnSAVE.Size = new System.Drawing.Size(89, 42);
-            this.btnSAVE.TabIndex = 23;
-            this.btnSAVE.Text = "SAVE";
-            this.btnSAVE.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSAVE.UseVisualStyleBackColor = false;
-            this.btnSAVE.Click += new System.EventHandler(this.btnSAVE_Click);
-            // 
             // PrPriceTb
             // 
             this.PrPriceTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PrPriceTb.Location = new System.Drawing.Point(525, 76);
+            this.PrPriceTb.Location = new System.Drawing.Point(526, 103);
             this.PrPriceTb.Name = "PrPriceTb";
             this.PrPriceTb.Size = new System.Drawing.Size(121, 22);
             this.PrPriceTb.TabIndex = 15;
@@ -199,7 +164,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(521, 54);
+            this.label5.Location = new System.Drawing.Point(522, 81);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 20);
             this.label5.TabIndex = 14;
@@ -209,7 +174,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(385, 54);
+            this.label4.Location = new System.Drawing.Point(386, 81);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 20);
             this.label4.TabIndex = 13;
@@ -221,8 +186,9 @@
             this.PrCatCb.FormattingEnabled = true;
             this.PrCatCb.Items.AddRange(new object[] {
             "16oz",
-            "22oz"});
-            this.PrCatCb.Location = new System.Drawing.Point(247, 75);
+            "22oz",
+            "BREAD"});
+            this.PrCatCb.Location = new System.Drawing.Point(248, 102);
             this.PrCatCb.Name = "PrCatCb";
             this.PrCatCb.Size = new System.Drawing.Size(121, 24);
             this.PrCatCb.TabIndex = 12;
@@ -230,7 +196,7 @@
             // PrQtyTb
             // 
             this.PrQtyTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PrQtyTb.Location = new System.Drawing.Point(389, 76);
+            this.PrQtyTb.Location = new System.Drawing.Point(390, 103);
             this.PrQtyTb.Name = "PrQtyTb";
             this.PrQtyTb.Size = new System.Drawing.Size(121, 22);
             this.PrQtyTb.TabIndex = 11;
@@ -239,7 +205,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(243, 52);
+            this.label3.Location = new System.Drawing.Point(244, 79);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(107, 20);
             this.label3.TabIndex = 10;
@@ -248,7 +214,7 @@
             // PrNameTb
             // 
             this.PrNameTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PrNameTb.Location = new System.Drawing.Point(11, 75);
+            this.PrNameTb.Location = new System.Drawing.Point(12, 102);
             this.PrNameTb.Name = "PrNameTb";
             this.PrNameTb.Size = new System.Drawing.Size(215, 20);
             this.PrNameTb.TabIndex = 9;
@@ -258,7 +224,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 54);
+            this.label2.Location = new System.Drawing.Point(8, 81);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 20);
             this.label2.TabIndex = 8;
@@ -274,6 +240,71 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "PRODUCTS";
             this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // btnPASTRY
+            // 
+            this.btnPASTRY.BackColor = System.Drawing.Color.Moccasin;
+            this.btnPASTRY.Image = global::CAFE_INIZIO.Properties.Resources.pastry;
+            this.btnPASTRY.Location = new System.Drawing.Point(112, 33);
+            this.btnPASTRY.Name = "btnPASTRY";
+            this.btnPASTRY.Size = new System.Drawing.Size(94, 45);
+            this.btnPASTRY.TabIndex = 29;
+            this.btnPASTRY.Text = "PASTRY";
+            this.btnPASTRY.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnPASTRY.UseVisualStyleBackColor = false;
+            this.btnPASTRY.Click += new System.EventHandler(this.btnPASTRY_Click);
+            // 
+            // btnCOFFEE
+            // 
+            this.btnCOFFEE.BackColor = System.Drawing.Color.Coral;
+            this.btnCOFFEE.Image = global::CAFE_INIZIO.Properties.Resources.coffee_cup;
+            this.btnCOFFEE.Location = new System.Drawing.Point(12, 33);
+            this.btnCOFFEE.Name = "btnCOFFEE";
+            this.btnCOFFEE.Size = new System.Drawing.Size(94, 45);
+            this.btnCOFFEE.TabIndex = 28;
+            this.btnCOFFEE.Text = "COFFEE";
+            this.btnCOFFEE.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnCOFFEE.UseVisualStyleBackColor = false;
+            this.btnCOFFEE.Click += new System.EventHandler(this.btnCOFFEE_Click);
+            // 
+            // btnDELETE
+            // 
+            this.btnDELETE.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnDELETE.Image = global::CAFE_INIZIO.Properties.Resources.exitbutton;
+            this.btnDELETE.Location = new System.Drawing.Point(853, 85);
+            this.btnDELETE.Name = "btnDELETE";
+            this.btnDELETE.Size = new System.Drawing.Size(89, 42);
+            this.btnDELETE.TabIndex = 25;
+            this.btnDELETE.Text = "DELETE";
+            this.btnDELETE.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDELETE.UseVisualStyleBackColor = false;
+            this.btnDELETE.Click += new System.EventHandler(this.btnDELETE_Click);
+            // 
+            // btnEDIT
+            // 
+            this.btnEDIT.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.btnEDIT.Image = global::CAFE_INIZIO.Properties.Resources.view;
+            this.btnEDIT.Location = new System.Drawing.Point(758, 85);
+            this.btnEDIT.Name = "btnEDIT";
+            this.btnEDIT.Size = new System.Drawing.Size(89, 42);
+            this.btnEDIT.TabIndex = 24;
+            this.btnEDIT.Text = "EDIT";
+            this.btnEDIT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnEDIT.UseVisualStyleBackColor = false;
+            this.btnEDIT.Click += new System.EventHandler(this.btnEDIT_Click);
+            // 
+            // btnSAVE
+            // 
+            this.btnSAVE.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btnSAVE.Image = global::CAFE_INIZIO.Properties.Resources.add;
+            this.btnSAVE.Location = new System.Drawing.Point(663, 85);
+            this.btnSAVE.Name = "btnSAVE";
+            this.btnSAVE.Size = new System.Drawing.Size(89, 42);
+            this.btnSAVE.TabIndex = 23;
+            this.btnSAVE.Text = "SAVE";
+            this.btnSAVE.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSAVE.UseVisualStyleBackColor = false;
+            this.btnSAVE.Click += new System.EventHandler(this.btnSAVE_Click);
             // 
             // btnLOGOUT
             // 
@@ -376,7 +407,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnLOGOUT;
+        private System.Windows.Forms.Button btnLOGOUT;  
         private System.Windows.Forms.Button btnORDER;
         private System.Windows.Forms.Button btnCOSTUMER;
         private System.Windows.Forms.Button btnPRODUCT;
@@ -398,5 +429,7 @@
         private System.Windows.Forms.Button btnSAVE;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView ProductDGV;
+        private System.Windows.Forms.Button btnPASTRY;
+        private System.Windows.Forms.Button btnCOFFEE;
     }
 }
