@@ -14,7 +14,7 @@ namespace CAFE_INIZIO
     public partial class Form1 : Form
     {
         public static bool IsAdmin { get; set; }
-        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30";
+        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30;";
 
         public Form1()
         {
@@ -32,14 +32,14 @@ namespace CAFE_INIZIO
 
         private void btnSUBMIT_Click(object sender, EventArgs e)
         {
-            string username = txtUSERNAME.Text;
-            string password = txtPASSWORD.Text;
+            string username = txtUSERNAME.Text.Trim();
+            string password = txtPASSWORD.Text.Trim();
 
             // Admin login
             if (username.ToLower() == "admin" && password.ToLower() == "admin")
             {
                 IsAdmin = true;
-                Main mainForm = new Main();
+                Main mainForm = new Main("Admin"); // Pass "Admin" as the logged-in employee name
                 mainForm.Show();
                 this.Hide();
                 return;
@@ -55,17 +55,16 @@ namespace CAFE_INIZIO
                     {
                         cmd.Parameters.AddWithValue("@EmpName", username);
                         cmd.Parameters.AddWithValue("@EmpPass", password);
+
                         int count = (int)cmd.ExecuteScalar();
 
                         if (count > 0)
                         {
                             // Fetch the employee name after successful login
                             string employeeName = "";
-
-                            // Fetch employee name
-                            SqlCommand nameCmd = new SqlCommand("SELECT EmpName FROM EmployeeTbl WHERE EmpName=@User AND EmpPass=@Pass", conn);
-                            nameCmd.Parameters.AddWithValue("@User", username);
-                            nameCmd.Parameters.AddWithValue("@Pass", password);
+                            SqlCommand nameCmd = new SqlCommand("SELECT EmpName FROM EmployeeTbl WHERE EmpName = @EmpName AND EmpPass = @EmpPass", conn);
+                            nameCmd.Parameters.AddWithValue("@EmpName", username);
+                            nameCmd.Parameters.AddWithValue("@EmpPass", password);
 
                             var result = nameCmd.ExecuteScalar();
                             if (result != null)
@@ -73,9 +72,9 @@ namespace CAFE_INIZIO
                                 employeeName = result.ToString();
                             }
 
-                            // Pass the employee name to the Main form
+                            // Open the Main form and pass the employee name
                             IsAdmin = false;
-                            Main mainForm = new Main(employeeName); // Pass employee name to Main form
+                            Main mainForm = new Main(employeeName);
                             mainForm.Show();
                             this.Hide();
                         }
@@ -91,5 +90,7 @@ namespace CAFE_INIZIO
                 }
             }
         }
+
     }
 }
+    
