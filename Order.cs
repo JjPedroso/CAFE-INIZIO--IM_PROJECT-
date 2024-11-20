@@ -147,6 +147,8 @@ namespace CAFE_INIZIO
             }
         }
 
+        private string currentProductType = "";
+
         private void ProductDGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -155,7 +157,42 @@ namespace CAFE_INIZIO
                 productId = Convert.ToInt32(row.Cells["PrId"].Value);
                 PrNameTb.Text = row.Cells["PrName"].Value.ToString();
                 PrPriceTb.Text = row.Cells["PrPrice"].Value.ToString();
-                stock = Convert.ToInt32(row.Cells["PrQty"].Value);
+
+                // Check if quantity is NULL or if it's a Coffee product
+                if (row.Cells["PrQty"].Value == DBNull.Value ||
+                    (row.Cells["PrCat"].Value?.ToString() ?? "").Equals("Coffee", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Set stock to maximum value to represent infinite
+                    stock = int.MaxValue;
+                    PrQtyTb.Text = "1";
+                    if (!IsTextChangedHandlerAttached)
+                    {
+                        PrQtyTb.TextChanged += PrQtyTb_TextChanged;
+                        IsTextChangedHandlerAttached = true;
+                    }
+                }
+                else
+                {
+                    // For products with actual stock
+                    stock = Convert.ToInt32(row.Cells["PrQty"].Value);
+                    PrQtyTb.Text = "";
+                    if (IsTextChangedHandlerAttached)
+                    {
+                        PrQtyTb.TextChanged -= PrQtyTb_TextChanged;
+                        IsTextChangedHandlerAttached = false;
+                    }
+                }
+            }
+        }
+
+
+
+        private bool IsTextChangedHandlerAttached = false;
+
+        private void PrQtyTb_TextChanged(object sender, EventArgs e)
+        {
+            if (!int.TryParse(PrQtyTb.Text, out int quantity) || quantity < 1)
+            {
                 PrQtyTb.Text = "1";
             }
         }
@@ -168,7 +205,14 @@ namespace CAFE_INIZIO
                 return;
             }
 
-            if (quantity > stock)
+            if (quantity <= 0)
+            {
+                MessageBox.Show("Quantity must be greater than 0.");
+                return;
+            }
+
+            // Only check stock if it's not infinite (not NULL in database)
+            if (stock != int.MaxValue && quantity > stock)
             {
                 MessageBox.Show("Not enough stock available.");
                 return;
@@ -185,11 +229,11 @@ namespace CAFE_INIZIO
 
             billDGV.Rows.Add(new object[]
             {
-                billDGV.Rows.Count + 1,
-                PrNameTb.Text,
-                quantity,
-                price,
-                total
+        billDGV.Rows.Count + 1,
+        PrNameTb.Text,
+        quantity,
+        price,
+        total
             });
 
             GrdTotal += total;
@@ -207,12 +251,33 @@ namespace CAFE_INIZIO
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "UPDATE ProductTbl SET PrQty = PrQty - @QuantitySold WHERE PrId = @ProductId";
+
+                    // First check if the product has NULL quantity or is coffee
+                    string query = "SELECT PrQty, PrCat FROM ProductTbl WHERE PrId = @ProductId";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@QuantitySold", quantitySold);
                         cmd.Parameters.AddWithValue("@ProductId", productId);
-                        cmd.ExecuteNonQuery();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                bool isNull = reader.IsDBNull(reader.GetOrdinal("PrQty"));
+                                string productType = reader.GetString(reader.GetOrdinal("PrCat"));
+
+                                // Only update stock for products that have non-NULL quantity and aren't coffee
+                                if (!isNull && !productType.Equals("Coffee", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    reader.Close();
+                                    query = "UPDATE ProductTbl SET PrQty = PrQty - @QuantitySold WHERE PrId = @ProductId";
+                                    using (SqlCommand updateCmd = new SqlCommand(query, conn))
+                                    {
+                                        updateCmd.Parameters.AddWithValue("@QuantitySold", quantitySold);
+                                        updateCmd.Parameters.AddWithValue("@ProductId", productId);
+                                        updateCmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -222,12 +287,20 @@ namespace CAFE_INIZIO
             }
         }
 
+
         private void ResetProductInputs()
         {
+            if (IsTextChangedHandlerAttached)
+            {
+                PrQtyTb.TextChanged -= PrQtyTb_TextChanged;
+                IsTextChangedHandlerAttached = false;
+            }
+
             PrNameTb.Text = string.Empty;
             PrQtyTb.Text = string.Empty;
             PrPriceTb.Text = string.Empty;
             productId = 0;
+            currentProductType = "";
         }
 
         private string GetOrderDetails()
