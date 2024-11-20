@@ -1,123 +1,262 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Drawing;
+    using System.Linq;
+    using System.Text;      
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
 
-namespace CAFE_INIZIO
-{
-    public partial class Product : Form
+    namespace CAFE_INIZIO
     {
-        private int Key = 0;
-
-        public Product()
+        public partial class Product : Form
         {
-            InitializeComponent();
-            DisplayProduct();
-            // Bind the double-click event for ProductDGV
-            ProductDGV.CellDoubleClick += new DataGridViewCellEventHandler(ProductDGV_CellDoubleClick);
-        }
+            private int Key = 0;
+            private string selectedProductType = "";
 
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30");
-
-        private void DisplayProduct()
-        {
-            try
+            public Product()
             {
-                if (Con.State == ConnectionState.Open)
-                {
-                    Con.Close();
-                }
-
-                Con.Open();
-                string Query = "Select * from ProductTbl";
-                SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
-                SqlCommandBuilder Builder = new SqlCommandBuilder(sda);
-                var ds = new DataSet();
-                sda.Fill(ds);
-                ProductDGV.DataSource = ds.Tables[0];
+                InitializeComponent();
+                DisplayProduct();
+                ProductDGV.CellDoubleClick += new DataGridViewCellEventHandler(ProductDGV_CellDoubleClick);
+                // Disable all input fields initially
+                DisableInputFields();
             }
-            finally
+            private void DisableInputFields()
             {
-                if (Con.State == ConnectionState.Open)
-                {
-                    Con.Close();
-                }
+                PrNameTb.Enabled = false;
+                PrCatCb.Enabled = false;
+                PrQtyTb.Enabled = false;
+                PrPriceTb.Enabled = false;
+                btnSAVE.Enabled = false;
             }
-        }
-
-        private void Clear()
-        {
-            PrNameTb.Text = "";
-            PrCatCb.Text = "";
-            PrQtyTb.Text = "";
-            PrPriceTb.Text = "";
-            Key = 0;
-        }
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnHOME_Click(object sender, EventArgs e)
-        {
-            Main mainForm = new Main();
-            mainForm.Show();
-            this.Hide();
-        }
-
-        private void btnEMPLOYEE_Click(object sender, EventArgs e)
-        {
-            Employee employee = new Employee();
-            employee.Show();
-            this.Hide();
-        }
-
-        private void btnPRODUCT_Click(object sender, EventArgs e)
-        {
-            Product product = new Product();
-            product.Show();
-            this.Hide();
-        }
-
-        private void btnCOSTUMER_Click(object sender, EventArgs e)
-        {
-            Costumer costumer = new Costumer();
-            costumer.Show();
-            this.Hide();
-        }
-
-        private void PrNameTb_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnSAVE_Click(object sender, EventArgs e)
-        {
-            if (PrNameTb.Text == "" || PrCatCb.Text == "" || PrQtyTb.Text == "" || PrPriceTb.Text == "")
+            private void EnableInputFields(bool isCoffee)
             {
-                MessageBox.Show("Missing Information");
+                PrNameTb.Enabled = true;
+                PrCatCb.Enabled = true;
+                PrPriceTb.Enabled = true;
+                PrQtyTb.Enabled = !isCoffee; // Disable quantity for coffee, enable for pastry
+                btnSAVE.Enabled = true;
+
+                // Clear all fields
+                Clear();
             }
-            else
+
+
+            SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30");
+
+            private void DisplayProduct()
             {
                 try
                 {
+                    if (Con.State == ConnectionState.Open)
+                    {
+                        Con.Close();
+                    }
+
                     Con.Open();
-                    SqlCommand cmd = new SqlCommand("Insert into ProductTbl (PrName,PrCat,PrQty,PrPrice) values(@PN,@PC,@PQ,@PP)", Con);
+                    string Query = "Select * from ProductTbl";
+                    SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
+                    SqlCommandBuilder Builder = new SqlCommandBuilder(sda);
+                    var ds = new DataSet();
+                    sda.Fill(ds);
+                    ProductDGV.DataSource = ds.Tables[0];
+                }
+                finally
+                {
+                    if (Con.State == ConnectionState.Open)
+                    {
+                        Con.Close();
+                    }
+                }
+            }
+
+            private void Clear()
+            {
+                PrNameTb.Text = "";
+                PrCatCb.Text = "";
+                PrQtyTb.Text = "";
+                PrPriceTb.Text = "";
+                Key = 0;
+            }
+
+
+            private void label1_Click(object sender, EventArgs e)
+            {
+
+            }
+
+            private void btnHOME_Click(object sender, EventArgs e)
+            {
+                Main mainForm = new Main();
+                mainForm.Show();
+                this.Hide();
+            }
+
+            private void btnEMPLOYEE_Click(object sender, EventArgs e)
+            {
+                Employee employee = new Employee();
+                employee.Show();
+                this.Hide();
+            }
+
+            private void btnPRODUCT_Click(object sender, EventArgs e)
+            {
+                Product product = new Product();
+                product.Show();
+                this.Hide();
+            }
+
+            private void btnCOSTUMER_Click(object sender, EventArgs e)
+            {
+                Costumer costumer = new Costumer();
+                costumer.Show();
+                this.Hide();
+            }
+
+            private void PrNameTb_TextChanged(object sender, EventArgs e)
+            {
+
+            }
+
+            private void btnSAVE_Click(object sender, EventArgs e)
+            {
+                if (selectedProductType == "")
+                {
+                    MessageBox.Show("Please select product type (Coffee or Pastry) first.");
+                    return;
+                }
+
+                // Validation based on product type
+                if (selectedProductType == "Coffee")
+                {
+                    if (PrNameTb.Text == "" || PrCatCb.Text == "" || PrPriceTb.Text == "")
+                    {
+                        MessageBox.Show("Please fill in all required fields");
+                        return;
+                    }
+                }
+                else // Pastry
+                {
+                    if (PrNameTb.Text == "" || PrCatCb.Text == "" || PrQtyTb.Text == "" || PrPriceTb.Text == "")
+                    {
+                        MessageBox.Show("Please fill in all required fields");
+                        return;
+                    }
+                }
+
+                try
+                {
+                    Con.Open();
+                    SqlCommand cmd = new SqlCommand("Insert into ProductTbl (PrName,PrCat,PrQty,PrPrice,PrType) values(@PN,@PC,@PQ,@PP,@PT)", Con);
+                    cmd.Parameters.AddWithValue("@PN", PrNameTb.Text);
+                    cmd.Parameters.AddWithValue("@PC", PrCatCb.Text);
+                    cmd.Parameters.AddWithValue("@PQ", selectedProductType == "Coffee" ? DBNull.Value : (object)PrQtyTb.Text);
+                    cmd.Parameters.AddWithValue("@PP", PrPriceTb.Text);
+                    cmd.Parameters.AddWithValue("@PT", selectedProductType);
+
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Product Added Successfully");
+                    Con.Close();
+                    DisplayProduct();
+                    Clear();
+                    selectedProductType = ""; // Reset product type
+                    DisableInputFields(); // Disable fields after saving
+                    btnCOFFEE.BackColor = SystemColors.Control; // Reset button colors
+                    btnPASTRY.BackColor = SystemColors.Control;
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.Message);
+                }
+                finally
+                {
+                    if (Con.State == ConnectionState.Open)
+                        Con.Close();
+                }
+            }
+
+
+
+            private void ProductDGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = ProductDGV.Rows[e.RowIndex];
+
+                    // Get the product type first
+                    string productType = row.Cells["PrType"].Value?.ToString() ?? "";
+                    selectedProductType = productType;
+
+                    // Enable fields based on product type
+                    EnableInputFields(productType == "Coffee");
+
+                    // Update button highlighting
+                    btnCOFFEE.BackColor = (productType == "Coffee") ? Color.LightGreen : SystemColors.Control;
+                    btnPASTRY.BackColor = (productType == "Pastry") ? Color.LightGreen : SystemColors.Control;
+
+                    // Fill the fields
+                    PrNameTb.Text = row.Cells["PrName"].Value.ToString();
+                    PrCatCb.Text = row.Cells["PrCat"].Value.ToString();
+                    PrPriceTb.Text = row.Cells["PrPrice"].Value.ToString();
+
+                    if (productType == "Pastry")
+                    {
+                        PrQtyTb.Text = row.Cells["PrQty"].Value?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        PrQtyTb.Text = "";
+                    }
+
+                    if (row.Cells["PrID"].Value != DBNull.Value && int.TryParse(row.Cells["PrID"].Value.ToString(), out int prID))
+                    {
+                        Key = prID;
+                    }
+                    else
+                    {
+                        Key = 0;
+                    }
+                }
+            }
+
+
+            private void btnEDIT_Click(object sender, EventArgs e)
+            {
+                if (PrNameTb.Text == "" || PrCatCb.Text == "" || PrQtyTb.Text == "" || PrPriceTb.Text == "")
+                {
+                    MessageBox.Show("Missing Information");
+                    return;
+                }
+
+                try
+                {
+                    if (Con.State == ConnectionState.Open)
+                    {
+                        Con.Close();
+                    }
+
+                    Con.Open();
+                    SqlCommand cmd = new SqlCommand("UPDATE ProductTbl SET PrName = @PN, PrCat = @PC, PrQty = @PQ, PrPrice = @PP WHERE PrID = @EKey", Con);
                     cmd.Parameters.AddWithValue("@PN", PrNameTb.Text);
                     cmd.Parameters.AddWithValue("@PC", PrCatCb.Text);
                     cmd.Parameters.AddWithValue("@PQ", PrQtyTb.Text);
                     cmd.Parameters.AddWithValue("@PP", PrPriceTb.Text);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Product Added");
-                    Con.Close();
+                    cmd.Parameters.AddWithValue("@EKey", Key);  // Use the class-level Key
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Product Updated Successfully");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No record updated. Please check if the correct row is selected.");
+                    }
+
                     DisplayProduct();
                     Clear();
                 }
@@ -125,84 +264,14 @@ namespace CAFE_INIZIO
                 {
                     MessageBox.Show(Ex.Message);
                 }
-            }
-        }
-
-
-        private void ProductDGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = ProductDGV.Rows[e.RowIndex];
-
-                // Fill the TextBoxes and ComboBox with the selected row's data
-                PrNameTb.Text = row.Cells["PrName"].Value.ToString();
-                PrCatCb.Text = row.Cells["PrCat"].Value.ToString();
-                PrQtyTb.Text = row.Cells["PrQty"].Value.ToString();
-                PrPriceTb.Text = row.Cells["PrPrice"].Value.ToString();
-
-                // Retrieve the product ID from the selected row
-                if (row.Cells["PrID"].Value != DBNull.Value && int.TryParse(row.Cells["PrID"].Value.ToString(), out int prID))
+                finally
                 {
-                    Key = prID; // Set the key (PrID) for future operations (edit/delete)
-                }
-                else
-                {
-                    Key = 0; // Reset key if invalid
+                    if (Con.State == ConnectionState.Open)
+                    {
+                        Con.Close();
+                    }
                 }
             }
-        }
-
-
-        private void btnEDIT_Click(object sender, EventArgs e)
-        {
-            if (PrNameTb.Text == "" || PrCatCb.Text == "" || PrQtyTb.Text == "" || PrPriceTb.Text == "")
-            {
-                MessageBox.Show("Missing Information");
-                return;
-            }
-
-            try
-            {
-                if (Con.State == ConnectionState.Open)
-                {
-                    Con.Close();
-                }
-
-                Con.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE ProductTbl SET PrName = @PN, PrCat = @PC, PrQty = @PQ, PrPrice = @PP WHERE PrID = @EKey", Con);
-                cmd.Parameters.AddWithValue("@PN", PrNameTb.Text);
-                cmd.Parameters.AddWithValue("@PC", PrCatCb.Text);
-                cmd.Parameters.AddWithValue("@PQ", PrQtyTb.Text);
-                cmd.Parameters.AddWithValue("@PP", PrPriceTb.Text);
-                cmd.Parameters.AddWithValue("@EKey", Key);  // Use the class-level Key
-
-                int rowsAffected = cmd.ExecuteNonQuery();
-
-                if (rowsAffected > 0)
-                {
-                    MessageBox.Show("Product Updated Successfully");
-                }
-                else
-                {
-                    MessageBox.Show("No record updated. Please check if the correct row is selected.");
-                }
-
-                DisplayProduct();
-                Clear();
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-            finally
-            {
-                if (Con.State == ConnectionState.Open)
-                {
-                    Con.Close();
-                }
-            }
-        }
 
 
         private void btnDELETE_Click(object sender, EventArgs e)
@@ -220,7 +289,8 @@ namespace CAFE_INIZIO
 
             try
             {
-                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\Cafe-Inizio-DB.mdf;Integrated Security=True;Connect Timeout=30"))
+                // Use the same connection string as other operations
+                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\John Jacob Pedroso\OneDrive\Documents\CAFE-INIZIO.mdf;Integrated Security=True;Connect Timeout=30"))
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("DELETE FROM ProductTbl WHERE PrID = @PrID", con))
@@ -232,6 +302,10 @@ namespace CAFE_INIZIO
                             MessageBox.Show("Product deleted successfully.");
                             DisplayProduct();
                             Clear();
+                            selectedProductType = ""; // Reset product type
+                            DisableInputFields(); // Disable fields after deleting
+                            btnCOFFEE.BackColor = SystemColors.Control; // Reset button colors
+                            btnPASTRY.BackColor = SystemColors.Control;
                             Key = 0;
                         }
                         else
@@ -248,17 +322,35 @@ namespace CAFE_INIZIO
         }
 
         private void btnORDER_Click(object sender, EventArgs e)
-        {
-            Order order = new Order();
-            order.Show();
-            this.Hide();
-        }
+            {
+                Order order = new Order();
+                order.Show();
+                this.Hide();
+            }
 
-        private void btnLOGOUT_Click(object sender, EventArgs e)
-        {
-            Form1 form1 = new Form1();
-            form1.Show();
-            this.Close();
+            private void btnLOGOUT_Click(object sender, EventArgs e)
+            {
+                Form1 form1 = new Form1();
+                form1.Show();
+                this.Close();
+            }
+
+            private void btnCOFFEE_Click(object sender, EventArgs e)
+            {
+                selectedProductType = "Coffee";
+                EnableInputFields(true);
+                btnCOFFEE.BackColor = Color.LightGreen; // Highlight selected button
+                btnPASTRY.BackColor = SystemColors.Control; // Reset other button
+                MessageBox.Show("Coffee selected. Please enter product details. Quantity will be set automatically.");
+            }
+
+            private void btnPASTRY_Click(object sender, EventArgs e)
+            {
+                selectedProductType = "Pastry";
+                EnableInputFields(false);
+                btnPASTRY.BackColor = Color.LightGreen; // Highlight selected button
+                btnCOFFEE.BackColor = SystemColors.Control; // Reset other button
+                MessageBox.Show("Pastry selected. Please enter all product details including quantity.");
+            }
         }
-    }
 }
