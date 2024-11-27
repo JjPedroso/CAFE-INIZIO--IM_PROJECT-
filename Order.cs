@@ -425,8 +425,9 @@ namespace CAFE_INIZIO
 
             e.Graphics.DrawString("Grand Total:", new Font("Century Gothic", 10, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 10));
             e.Graphics.DrawString($"PHP {GrdTotal:N2}", new Font("Century Gothic", 10, FontStyle.Bold), Brushes.Blue, new Point(120, pos + 10));
-            e.Graphics.DrawString($"Served by: {currentEmployeeName}", new Font("Century Gothic", 8, FontStyle.Regular), Brushes.Black, new Point(26, pos + 30));
-            e.Graphics.DrawString("***THANK YOU FOR VISITING CAFE INIZIO***", new Font("Century Gothic", 8, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 50));
+            e.Graphics.DrawString($"Served to: {selectedCustomerName}", new Font("Century Gothic", 8, FontStyle.Regular), Brushes.Black, new Point(26, pos + 30));
+            e.Graphics.DrawString($"Served by: {currentEmployeeName}", new Font("Century Gothic", 8, FontStyle.Regular), Brushes.Black, new Point(26, pos + 50));
+            e.Graphics.DrawString("***THANK YOU FOR VISITING CAFE INIZIO***", new Font("Century Gothic", 8, FontStyle.Bold), Brushes.Blue, new Point(26, pos + 70));
 
             billDGV.Rows.Clear();
             billDGV.Refresh();
